@@ -1,0 +1,215 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+th, td {
+	border: 1px solid black;
+}
+
+table, th, td {
+	border-collapse: collapse;
+}
+
+table {
+	margin: auto;
+}
+
+body {
+	border: 2px solid #9E9E9E;
+	padding: 0px;
+	font-family: "Cambria", sans-serif;
+	font-size: 13px;
+	height: 1000px;
+	background: #fafafa;
+	text-align: justify;
+}
+
+table, th, td {
+	padding: 5px 10px;
+	min-width: 100px;
+	text-align: justify;
+}
+
+.img-container {
+	width: 120px;
+	height: 100px;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
+
+.img {
+	display: inline-block;
+	background-image:
+		url(https://upload.wikimedia.org/wikipedia/en/1/19/Softtek_logo.png);
+	background-repeat: round;
+	width: 100%;
+	height: 80%;
+}
+
+h4, h5 {
+	text-align: center;
+	text-decoration: underline;
+}
+
+.agreement-info, .disclaimer {
+	padding: 5px 35px 0px 35px;
+}
+</style>
+</head>
+<body>
+	<div class="img-container">
+		<span class="img"></span>
+	</div>
+
+	<h4>LIABILITY LETTER</h4>
+	<h5>LIABILITY AGREEMENT OF EQUIPMENT ASSIGNMENT</h5>
+	<div class="agreement-info">
+
+		<p>I do hereby receive the computer equipment, whose
+			characteristics and specifications are further detailed herein
+			(hereinafter the “Equipment”), that Softtek (this denomination
+			includes all the legal entities that belong to this entity) has
+			assigned to me, in order for me to perform my duties and obligations
+			within the work place.</p>
+
+		<p>And I do hereby further state that the Equipment that has been
+			assigned to me is in perfect conditions in order for me to provide my
+			professional services to Softtek, so I hereby agree to take care and
+			make good use of it during the time that the Equipment is under my
+			responsibility.</p>
+
+		<p>By this means I acknowledge that I am aware of Softtek´s Use,
+			Care and Protection of the Equipment policies, which are published
+			and available in the following web sites: intrasoft.softtek.com,
+			portal.softtek.com and security.softtek.com, so hereby I agree to
+			abide to the policies listed above, as well as to any new policy or
+			to any additions that might be made to the existing ones, that I can
+			be made aware of through my corporate email (@softtek.com) or by any
+			other means deemed appropriate by Softtek.</p>
+
+		<p>At the end of my assignment I agree to return the Equipment to
+			Softtek in good conditions, without any damage and with the same
+			characteristics and hardware specifications that it had when I
+			received it. I agree that the loss or intentional or negligent damage
+			of the Equipment, will result in the deduction of the cost of it of
+			the payments of my Service, amount that shall exclusively be
+			determined by Softtek.</p>
+
+		<p>I am aware that Softtek has provided the Equipment for my
+			individual use and only for purposes related to the work assigned by
+			Softtek. I agree that failure to comply with the above conditions
+			will result in liability and I will be full responsible of it,
+			notwithstanding the internal penalties that might apply in these
+			cases</p>
+	</div>
+	<br></br>
+	<div class="equipment-details">
+		<h4>Assigned To Details</h4>
+		<table>
+			<tr>
+				<th>Employee Name</th>
+				<td th:if="${assetAssignment.employee!=null}"><span
+					th:text="${assetAssignment.employee.name}"></span></td>
+				<td th:if="${assetAssignment.employee==null}">-</td>
+				<th>Employee Id</th>
+				<td th:if="${assetAssignment.employee!=null}"><span
+					th:text="${assetAssignment.employee.employeeId}"></span></td>
+				<td th:if="${assetAssignment.employee==null}">-</td>
+			</tr>
+			<tr>
+				<th>Employee ISID</th>
+				<td th:if="${assetAssignment.employee!=null}"><span
+					th:text="${assetAssignment.employee.isid}"></span></td>
+				<td th:if="${assetAssignment.employee==null}">-</td>
+				<th>Employee Email</th>
+				<td th:if="${assetAssignment.employee!=null}"><span
+					th:text="${assetAssignment.employee.email}"></span></td>
+				<td th:if="${assetAssignment.employee==null}">-</td>
+			</tr>
+			<tr>
+				<th>Project</th>
+				<td th:if="${assetAssignment.project!=null}"><span
+					th:text="${assetAssignment.project.name}"></span></td>
+				<td th:if="${assetAssignment.project==null}">-</td>
+				<th>Department</th>
+				<td th:if="${assetAssignment.department!=null}"><span
+					th:text="${assetAssignment.department.name}"></span></td>
+				<td th:if="${assetAssignment.department==null}">-</td>
+			</tr>
+			<tr>
+				<th>Area</th>
+				<td th:if="${assetAssignment.area!=null}"><span
+					th:text="${assetAssignment.area.name}"></span></td>
+				<td th:if="${assetAssignment.area==null}">-</td>
+				<th>Floor</th>
+				<td th:if="${assetAssignment.area!=null}"><span
+					th:text="${assetAssignment.area.floor.name}"></span></td>
+				<td th:if="${assetAssignment.area==null}">-</td>
+			</tr>
+		</table>
+		<h4>Equipment Details</h4>
+		<table>
+			<tr>
+				<th>Tag Id</th>
+				<td th:if="${assetAssignment.asset!=null}"><span
+					th:text="${assetAssignment.asset.tagId}"></span></td>
+				<td th:if="${assetAssignment.asset==null}">-</td>
+				<th>Serial No</th>
+				<td th:if="${assetAssignment.asset!=null}"><span
+					th:text="${assetAssignment.asset.serialNo}"></span></td>
+				<td th:if="${assetAssignment.asset==null}">-</td>
+			</tr>
+			<tr>
+				<th>Category</th>
+				<td th:if="${assetAssignment.asset!=null}"><span
+					th:text="${assetAssignment.asset.category.name}"></span></td>
+				<td th:if="${assetAssignment.asset==null}">-</td>
+				<th>Sub Category</th>
+				<td th:if="${assetAssignment.asset!=null}"><span
+					th:text="${assetAssignment.asset.subCategory.name}"></span></td>
+				<td th:if="${assetAssignment.asset==null}">-</td>
+			</tr>
+			<tr>
+				<th>Model</th>
+				<td th:if="${assetAssignment.asset!=null && assetAssignment.asset.assetModel!=null}"><span
+					th:text="${assetAssignment.asset.assetModel.name}"></span></td>
+				<td th:if="${assetAssignment.asset==null || assetAssignment.asset.assetModel==null}">-</td>
+				<th>OS</th>
+				<td th:if="${assetAssignment.asset!=null && assetAssignment.asset.operatingSystem!=null}"><span
+					th:text="${assetAssignment.asset.operatingSystem.name}"></span></td>
+				<td th:if="${assetAssignment.asset==null || assetAssignment.asset.operatingSystem==null}">-</td>
+			</tr>
+			<tr>
+				<th>Location</th>
+				<td th:if="${assetAssignment!=null}"><span
+					th:text="${assetAssignment.location}"></span></td>
+				<td th:if="${assetAssignment==null}">-</td>
+				<th>Country</th>
+				<td th:if="${assetAssignment!=null}"><span
+					th:text="${assetAssignment.country}"></span></td>
+				<td th:if="${assetAssignment==null}">-</td>
+			</tr>
+			<tr>
+				<th>Additional Details</th>
+				<td colspan="3" th:if="${assetAssignment!=null}"><span
+					th:text="${assetAssignment.additionalDetails}"></span></td>
+				<td colspan="3" th:if="${assetAssignment==null}">-</td>
+			</tr>
+		</table>
+		<h4>Assignment Details</h4>
+		<table>
+			<tr>
+				<th>Assigned By</th>
+				<td th:if="${assetAssignment!=null}"><span
+					th:text="${assetAssignment.assetAssignedBy}"></span></td>
+				<td th:if="${assetAssignment==null}">-</td>
+				<th>Assigned Date</th>
+				<td th:if="${assetAssignment!=null}"><span
+					th:text="${#dates.format(assetAssignment.assignmentDate,'yyyy-MM-dd')}"></span></td>
+				<td th:if="${assetAssignment==null}">-</td>
+			</tr>
+		</table>
+
+	</div>
+</body>
+</html>
