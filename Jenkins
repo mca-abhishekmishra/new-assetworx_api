@@ -1,0 +1,92 @@
+pipeline{
+    agent any
+    stages {
+        stage("Initialize"){
+			steps{
+				echo "Initializing job for branch ${env.APP}"
+				script {
+                    if (env.APP == 'ASSETWORX-API') {
+                        echo 'Creating Build For API'
+                        env.GITHUB_URL = 'https://github.com/argo2021/assetworx_api.git';
+                        env.GITHUB_CREDENTIALS = '17bb7694-224e-44ea-a751-bdce480e86a2';
+                        env.TOMCAT_CREDENTIALS = 'assetworx-api';
+                        env.TOMCAT_URL = 'http://localhost:9200';
+                    } else {
+                        echo 'Creating Build For UI'
+                        env.GITHUB_URL = 'https://github.com/argo2021/assetworx_ui.git';
+                        env.GITHUB_CREDENTIALS = '17bb7694-224e-44ea-a751-bdce480e86a2';
+                        env.TOMCAT_CREDENTIALS = 'assetworx-ui';
+                        env.TOMCAT_URL = 'http://localhost';
+                    }
+                    // use name of the patchset as the build name
+                    buildName "${BUILD_NUMBER} - ${env.APP}"
+                }
+			}
+		}
+        stage('Select Branch') {
+			steps{
+				script{
+				    echo "Checking out the code from repository ${env.GITHUB_URL}"
+					git credentialsId: '17bb7694-224e-44ea-a751-bdce480e86a2', url: "${env.GITHUB_URL}"
+					sh 'git branch -r | awk \'{print $1}\' ORS=\'\\n\' >branch.txt'
+					echo "Waiting for the user to select the branch..."
+					list = readFile 'branch.txt'
+					env.BRANCH_SCOPE = input message: 'Please choose the branch to build ', ok: 'Next',
+					parameters: [
+						choice(name: 'BRANCH_NAME', 
+						choices: "${list}", 
+						description: 'Branch to build ?')
+					]
+				}
+			}
+		} 
+		stage("Build"){
+			steps{
+				script {
+				    echo "Checking out to branch ${env.BRANCH_SCOPE} for ${env.APP}"
+				    buildDescription "${env.BRANCH_SCOPE}"
+				    git credentialsId: "${env.GITHUB_CREDENTIALS}", url: "${env.GITHUB_URL}"
+				    sh "git checkout -b build ${env.BRANCH_SCOPE}"
+					echo "Creating maven build for ${env.APP} using branch ${env.BRANCH_SCOPE}"
+					sh 'mvn  clean install'
+				}
+			}
+		}
+		stage('Authorize Deploy') {
+            agent none
+            steps {
+                script {
+                    echo "Waitng for user to authorize deploy"
+                    def deploymentDelay = input id: 'Deploy', message: "Deploy to server (${env.APP})?     \n  ", ok: 'Approve'
+                }
+            }
+        }
+		stage("Deploy"){
+			steps{
+			    script {
+					echo "Taking backup of the old  build and deleting it from webapps folder of ${env.APP}."
+					if (env.APP == 'ASSETWORX-API') {
+                        sh 'sudo /opt/scripts/buildBackup.sh api'
+                        sh 'ls -ltr /opt/backups/api/* | tail -1'
+                    } else {
+                        sh 'sudo /opt/scripts/buildBackup.sh ui'
+                        sh 'ls -ltr /opt/backups/ui/* | tail -1'
+                    }
+                    sleep 10
+                    echo "Deploying to tomcat - ${env.APP}"
+				    deploy adapters: [tomcat9(credentialsId: "${env.TOMCAT_CREDENTIALS}", path: '', url: "${env.TOMCAT_URL}")], contextPath: null, onFailure: false, war: '**/*.war'
+				}
+			}
+		}
+		
+	}
+	post { 
+	    aborted {
+	        echo "User Aborted Deployment."
+	    }
+		always { 
+			echo 'Cleaning Workspace';
+			cleanWs()
+		}
+	}
+}
