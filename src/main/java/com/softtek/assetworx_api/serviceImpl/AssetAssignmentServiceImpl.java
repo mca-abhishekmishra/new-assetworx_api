@@ -105,7 +105,7 @@ public class AssetAssignmentServiceImpl implements AssetAssignmentService {
 			if (a1 != null) {
 				assetService.saveAssignment(asset, a1);
 				executor.execute(() -> {
-					// sendAssignmentEmail(a1);
+					sendAssignmentEmail(a1);
 				});
 				return a1;
 			} else {
@@ -150,7 +150,7 @@ public class AssetAssignmentServiceImpl implements AssetAssignmentService {
 		if (a1 != null) {
 			assetService.saveUnAssignment(a1);
 			executor.execute(() -> {
-				// sendUnAssignmentEmail(a1);
+				sendUnAssignmentEmail(a1);
 			});
 			return a1;
 		} else {
@@ -183,7 +183,6 @@ public class AssetAssignmentServiceImpl implements AssetAssignmentService {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return assign(a);
