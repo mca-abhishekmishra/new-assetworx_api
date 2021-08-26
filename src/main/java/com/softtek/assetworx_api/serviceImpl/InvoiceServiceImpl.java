@@ -8,9 +8,7 @@ import static com.softtek.assetworx_api.util.Constants.NEW;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,19 +16,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import javax.validation.Validator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.task.TaskExecutor;
@@ -384,7 +379,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 				document.setOriginalFileName(fileName);
 
 				String mailTo = env.getProperty("mail.finance");
-				String mailCc = "nayaz.basha@softtek.com";// env.getProperty("mail.finance");
+				String mailCc =  env.getProperty("mail.finance");
 				String subject = "Invoice Discrepancy";
 
 				Map<String, Object> variables = new HashMap<String, Object>();
@@ -420,7 +415,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 		System.out.println("-------------assetInApprovalCount---------" + assetInApprovalCount + "------");
 		String mailTo = env.getProperty("mail.finance");
-		String mailCc = "nayaz.basha@softtek.com";// env.getProperty("mail.finance");
+		String mailCc = env.getProperty("mail.finance");
 		String subject = "Gentel Reminder";
 
 		Map<String, Object> variables = new HashMap<String, Object>();
