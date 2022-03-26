@@ -43,6 +43,8 @@ public class AssetworxUser implements Serializable {
 	private String email;
 
 	private boolean isActive;
+	
+	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority_mapping", joinColumns = {
@@ -108,6 +110,14 @@ public class AssetworxUser implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Set<UserAuthority> getAuthorties() {
