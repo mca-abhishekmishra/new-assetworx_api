@@ -81,7 +81,7 @@ public class WorkstationAllocationController {
 		.queryParam("api-version", "2016-06-01")
 		.queryParam("sp", "/triggers/manual/run")
 		.queryParam("sv", "1.0")
-		.queryParam("sig", "rwh-AlaO8UDbxOGqtBq_9xqWSO-HKw1MxIu7fPrRFOk");
+		.queryParam("sig", "IzM3da5Gt5fJjlYxvd_dzTnLOZd17baEoQnMg2e8zEA");
 		try {
 			ResponseEntity<String> response = restTemplate.postForEntity(builder.buildAndExpand().toUri(), wr,String.class);
 			if (response.getStatusCode() == HttpStatus.ACCEPTED) {
