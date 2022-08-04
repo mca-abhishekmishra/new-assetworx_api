@@ -157,7 +157,7 @@ public class ReportController {
 	}
 	
 	@GetMapping("/getSeatallReport")
-	private ResponseEntity<?> getSeatallReport(@RequestParam("reportName") String reportName, @RequestParam("reportParam") String reportParam) {
+	private ResponseEntity<?> getSeatallReport(@RequestParam("reportName") String reportName, @RequestParam(value="reportParam", required = false) String reportParam) {
 		Object data = reportService.getSeatallReport(reportName, reportParam);
 		if (data != null) {
 			return new ResponseEntity<Object>(data, HttpStatus.OK);
