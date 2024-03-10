@@ -58,6 +58,7 @@ import com.softtek.assetworx_api.exception.GenericRestException;
 import com.softtek.assetworx_api.exception.InvalidEntityException;
 import com.softtek.assetworx_api.model.Mail;
 import com.softtek.assetworx_api.repository.AssetRepository;
+import com.softtek.assetworx_api.service.AssetLocationService;
 import com.softtek.assetworx_api.service.AssetModelService;
 import com.softtek.assetworx_api.service.AssetService;
 import com.softtek.assetworx_api.service.AssetTypeService;
@@ -112,6 +113,9 @@ public class AssetServiceImpl implements AssetService {
 
 	@Autowired
 	LicenseTypeService licenseTypeService;
+	
+	@Autowired
+	AssetLocationService assetLocationService;
 
 	@Autowired
 	TaskExecutor executor;
@@ -280,6 +284,8 @@ public class AssetServiceImpl implements AssetService {
 					.findById(asset.getOperatingSystem() != null ? asset.getOperatingSystem().getId() : ""));
 			a.setDescription(asset.getDescription());
 			a.setComment(asset.getComment());
+			a.setAssetLocation(
+					assetLocationService.findById(asset.getAssetLocation() != null ? asset.getAssetLocation().getId() : ""));
 			if (validate(a, false)) {
 
 				return assetRepository.save(a);

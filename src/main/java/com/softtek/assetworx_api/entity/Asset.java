@@ -157,6 +157,11 @@ public class Asset {
 	@Column(name="hidden_comment",columnDefinition = "varchar(1000)")
 	private String hiddenComment;
 	
+	@ManyToOne
+	@JoinColumn(name="asset_location_id")
+	@JsonIgnoreProperties({"createdBy","created","lastUpdated","lastUpdatedBy","description","active"}) 
+	private AssetLocation assetLocation;
+	
     private String createdBy;
 
     @CreatedDate
@@ -345,6 +350,14 @@ public class Asset {
 
 	public void setHiddenComment(String hiddenComment) {
 		this.hiddenComment = hiddenComment;
+	}	
+
+	public AssetLocation getAssetLocation() {
+		return assetLocation;
+	}
+
+	public void setAssetLocation(AssetLocation assetLocation) {
+		this.assetLocation = assetLocation;
 	}
 
 	public String getCreatedBy() {
